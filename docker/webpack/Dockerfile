@@ -3,7 +3,6 @@ USER root
 ENV WEB_ROOT=/web_root
 ENV ARCHES_ROOT=${WEB_ROOT}/arches
 ENV APP_ROOT=${WEB_ROOT}/disco
-ENV NODE_MAJOR=18
 RUN mkdir -p ${APP_ROOT}/disco/webpack
 
 RUN apt-get update && apt-get install -y make software-properties-common && apt-get install -y ca-certificates curl gnupg && mkdir -p /etc/apt/keyrings
@@ -33,7 +32,7 @@ COPY ./arches ${ARCHES_ROOT}
 RUN apt-get update && apt-get -y install curl \
   && apt-get install nodejs && npm install -g yarn && apt install wait-for-it
 WORKDIR ${ARCHES_ROOT}
-RUN pip install -e . --user --no-use-pep517  
+RUN pip install -e . --user
 RUN pip install -r arches/install/requirements.txt 
 RUN pip install -r arches/install/requirements_dev.txt
 COPY /disco/docker/webpack/entrypoint.sh ${WEB_ROOT}/entrypoint.sh
