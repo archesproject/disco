@@ -3,6 +3,7 @@ USER root
 ENV WEB_ROOT=/web_root
 ENV ARCHES_ROOT=${WEB_ROOT}/arches
 ENV APP_ROOT=${WEB_ROOT}/disco
+ENV NODE_MAJOR=18
 RUN mkdir -p ${APP_ROOT}/disco/webpack
 
 RUN apt-get update && apt-get install -y make software-properties-common && apt-get install -y ca-certificates curl gnupg && mkdir -p /etc/apt/keyrings
