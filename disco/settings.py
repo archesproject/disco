@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     "compressor",
     # "silk",
     "arches_templating",
+    "afs",
     "disco",
 )
 
