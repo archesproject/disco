@@ -42,7 +42,8 @@ RUN set -ex \
   && apt-get update -y \
   && apt-get install -y --no-install-recommends $RUN_DEPS
 
-RUN apt install python3-pip -y \
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py \
+  && pip install setuptools \
   && apt-get install nodejs -y \
   && npm install -g yarn
 
@@ -54,13 +55,12 @@ RUN rm -rf /root/.cache/pip/*
 # FIXME: ADD from github repository instead?
 COPY ./arches ${ARCHES_ROOT}
 COPY ./afs ${AFS_ROOT}
-# From here, run commands from ARCHES_ROOT
+
 WORKDIR ${ARCHES_ROOT}
-
 RUN pip install -e . --user && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt
-WORKDIR ${AFS_ROOT}
 
-RUN pip show setuptools && pip install -e .
+WORKDIR ${AFS_ROOT}
+RUN pip install -e .
 
 # TODO: These are required for non-dev installs, currently only depends on arches/afs
 #COPY /disco/disco/install/requirements.txt requirements.txt
