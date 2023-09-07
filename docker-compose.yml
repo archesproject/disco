@@ -45,6 +45,7 @@ services:
       volumes:
         - ../arches/:/web_root/arches
         - ./:/web_root/disco
+        - ../afs/:/web_root/afs
       env_file:
         - ./docker/webpack/env_file.env
       ports:
