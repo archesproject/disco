@@ -59,7 +59,8 @@ WORKDIR ${ARCHES_ROOT}
 
 RUN pip install -e . --user && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt
 WORKDIR ${AFS_ROOT}
-RUN pip install .
+
+RUN pip show setuptools && pip install -e .
 
 # TODO: These are required for non-dev installs, currently only depends on arches/afs
 #COPY /disco/disco/install/requirements.txt requirements.txt
