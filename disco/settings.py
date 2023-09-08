@@ -163,7 +163,33 @@ TEMPLATES = build_templates_config(
     debug=DEBUG,
     app_root=APP_ROOT,
     arches_applications=ARCHES_APPLICATIONS,
+    context_processors=[
+                    "django.contrib.auth.context_processors.auth",
+                    "django.template.context_processors.debug",
+                    "django.template.context_processors.i18n",
+                    "django.template.context_processors.media",
+                    "django.template.context_processors.static",
+                    "django.template.context_processors.tz",
+                    "django.template.context_processors.request",
+                    "django.contrib.messages.context_processors.messages",
+                    "arches.app.utils.context_processors.livereload",
+                    "arches.app.utils.context_processors.map_info",
+                    "arches.app.utils.context_processors.app_settings",
+                    "afs.utils.context_processors.project_settings"
+                ]
 )
+
+FORMATS = [
+    {"name": "Bruker M6 (point)", "id": "bm6", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker 5g", "id": "b5g", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker Tracer IV-V", "id": "bt45", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker Tracer III", "id": "bt3", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker 5i", "id": "b5i", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker Artax", "id": "bart", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Renishaw InVia - 785", "id": "r785", "renderer": "94fa1720-6773-4f99-b49b-4ea0926b3933"},
+    {"name": "Ranishsaw inVia - 633/514", "id": "r633", "renderer": "94fa1720-6773-4f99-b49b-4ea0926b3933"},
+    {"name": "ASD FieldSpec IV hi res", "id": "asd", "renderer": "88dccb59-14e3-4445-8f1b-07f0470b38bb"},
+]
 
 ALLOWED_HOSTS = []
 
@@ -371,7 +397,7 @@ except ImportError as e:
         from settings_local import *
     except ImportError as e:
         pass
-    
+
 if DOCKER:
     try:
         from .settings_docker import *
