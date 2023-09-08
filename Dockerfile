@@ -6,7 +6,7 @@ ENV WEB_ROOT=/web_root
 ENV APP_ROOT=${WEB_ROOT}/disco
 # Root project folder
 ENV ARCHES_ROOT=${WEB_ROOT}/arches
-ENV AFS_ROOT=${WEB_ROOT}/afs
+ENV AFS_ROOT=${WEB_ROOT}/arches-for-science
 ENV WHEELS=/wheels
 ENV PYTHONUNBUFFERED=1
 ENV NODE_MAJOR=18
@@ -54,7 +54,7 @@ RUN rm -rf /root/.cache/pip/*
 # Install the Arches application
 # FIXME: ADD from github repository instead?
 COPY ./arches ${ARCHES_ROOT}
-COPY ./afs ${AFS_ROOT}
+COPY ./arches-for-science ${AFS_ROOT}
 
 WORKDIR ${ARCHES_ROOT}
 RUN pip install -e . --user && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt

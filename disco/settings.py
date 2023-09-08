@@ -129,11 +129,11 @@ INSTALLED_APPS = (
     "compressor",
     # "silk",
     "arches_templating",
-    "afs",
+    "arches_for_science",
     "disco",
 )
 
-ARCHES_APPLICATIONS = ('afs',)
+ARCHES_APPLICATIONS = ('arches_for_science',)
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -175,7 +175,7 @@ TEMPLATES = build_templates_config(
                     "arches.app.utils.context_processors.livereload",
                     "arches.app.utils.context_processors.map_info",
                     "arches.app.utils.context_processors.app_settings",
-                    "afs.utils.context_processors.project_settings"
+                    "arches_for_science.utils.context_processors.project_settings"
                 ]
 )
 

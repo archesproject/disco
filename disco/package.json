@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "arches": "archesproject/arches#dev/7.5.x",
-        "afs": "jacobtylerwalls/arches-for-science-prj#arches-apps-follow-up"
+        "arches-for-science": "archesproject/arches-for-science-prj#dev/1.1.x"
     },
     "nodeModulesPaths": {
     }

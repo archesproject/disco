@@ -3,7 +3,7 @@ USER root
 ENV WEB_ROOT=/web_root
 ENV ARCHES_ROOT=${WEB_ROOT}/arches
 ENV APP_ROOT=${WEB_ROOT}/disco
-ENV AFS_ROOT=${WEB_ROOT}/afs
+ENV AFS_ROOT=${WEB_ROOT}/arches-for-science
 ENV NODE_MAJOR=18
 RUN mkdir -p ${APP_ROOT}/disco/webpack
 
@@ -32,7 +32,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.p
   && pip install setuptools
 
 COPY ./arches ${ARCHES_ROOT}
-COPY ../afs ${AFS_ROOT}
+COPY ../arches-for-science ${AFS_ROOT}
 RUN apt-get update && apt-get -y install curl \
   && apt-get install nodejs && npm install -g yarn && apt install wait-for-it
 WORKDIR ${ARCHES_ROOT}
