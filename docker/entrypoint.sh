@@ -19,7 +19,6 @@ YARN_MODULES_FOLDER=${PACKAGE_JSON_FOLDER}/$(awk \
 
 # Environmental Variables
 export DJANGO_PORT=${DJANGO_PORT:-8000}
-COUCHDB_URL="http://$COUCHDB_USER:$COUCHDB_PASS@$COUCHDB_HOST:$COUCHDB_PORT"
 
 #Utility functions that check db status
 wait_for_db() {
@@ -75,7 +74,6 @@ init_arches() {
 
 		arches-project create ${ARCHES_PROJECT}
 		run_setup_db
-		setup_couchdb
 
 		exit_code=$?
 		if [[ ${exit_code} != 0 ]]; then
@@ -92,17 +90,8 @@ init_arches() {
 		else
 			echo "Database ${PGDBNAME} does not exists yet."
 			run_load_package #change to run_load_package if preferred 
-			setup_couchdb
 		fi
 	fi
-}
-
-# Setup Couchdb (when should this happen?)
-setup_couchdb() {
-    echo "Running: Creating couchdb system databases"
-    curl -X PUT ${COUCHDB_URL}/_users
-    curl -X PUT ${COUCHDB_URL}/_global_changes
-    curl -X PUT ${COUCHDB_URL}/_replicator
 }
 
 # Yarn
