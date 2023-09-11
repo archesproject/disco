@@ -141,7 +141,7 @@ run_load_package() {
 	echo "----- *** LOADING PACKAGE: ${ARCHES_PROJECT} *** -----"
 	echo ""
 	cd ${APP_FOLDER}
-	python3 manage.py packages -o load_package -s ${ARCHES_PROJECT}/pkg -db -dev -y
+	python3 manage.py packages -o load_package -a arches_for_science -db -dev -y
 }
 
 # "exec" means that it will finish building???
@@ -151,7 +151,7 @@ run_django_server() {
 	echo ""
 	cd ${APP_FOLDER}
     echo "Running Django"
-	exec sh -c "pip install debugpy -t /tmp && python3 /tmp/debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:${DJANGO_PORT}"
+	exec sh -c "pip install debugpy -t /tmp && python3 /tmp/debugpy --listen 0.0.0.0:5678 -Wdefault manage.py runserver 0.0.0.0:${DJANGO_PORT}"
 }
 
 run_livereload_server() {

@@ -35,13 +35,15 @@ COPY ./arches ${ARCHES_ROOT}
 COPY ../arches-for-science ${AFS_ROOT}
 RUN apt-get update && apt-get -y install curl \
   && apt-get install nodejs && npm install -g yarn && apt install wait-for-it
+  
+WORKDIR ${AFS_ROOT}
+RUN pip show setuptools && pip --version && pip install -e .
+
 WORKDIR ${ARCHES_ROOT}
 RUN pip install -e . --user
 RUN pip install -r arches/install/requirements.txt 
 RUN pip install -r arches/install/requirements_dev.txt
-WORKDIR ${AFS_ROOT}
-RUN pip show setuptools && pip --version && pip install -e .
-WORKDIR ${ARCHES_ROOT}
+
 COPY /disco/docker/webpack/entrypoint.sh ${WEB_ROOT}/entrypoint.sh
 RUN chmod -R 700 ${WEB_ROOT}/entrypoint.sh
 WORKDIR ${WEB_ROOT}

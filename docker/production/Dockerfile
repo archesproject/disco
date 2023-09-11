@@ -7,8 +7,11 @@ ENV APP_ROOT=${WEB_ROOT}/disco
 # Root project folder
 ENV WHEELS=/wheels
 ENV PYTHONUNBUFFERED=1
+ENV NODE_MAJOR=18
 
-RUN apt-get update && apt-get install -y make software-properties-common
+RUN apt-get update && apt-get install -y make software-properties-common && apt-get install -y ca-certificates curl gnupg && mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && apt-get update
 
 # Get the pre-built python wheels from the build environment
 RUN mkdir ${WEB_ROOT}
@@ -33,20 +36,18 @@ RUN set -ex \
   git \
   " \
   && apt-get install -y --no-install-recommends curl \
-  && curl -sL https://deb.nodesource.com/setup_16.x | bash - \
   && curl -sL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
   && add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" \
   && apt-get update -y \
   && apt-get install -y --no-install-recommends $RUN_DEPS
 
-RUN apt install python3-pip -y \
-  && apt-get install -y nodejs npm \
-  && node -v \
-  && npm install -g yarn
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py \
+  && pip install setuptools \
+  && apt-get install nodejs -y \
+  && npm install -g yarn \
+  && rm -rf /root/.cache/pip/*
 
 WORKDIR ${WEB_ROOT}
-
-RUN rm -rf /root/.cache/pip/*
 
 # Install the Arches application
 # FIXME: ADD from github repository instead?
@@ -60,7 +61,6 @@ RUN chmod -R 700 ${WEB_ROOT}/entrypoint.sh &&\
   dos2unix ${WEB_ROOT}/entrypoint.sh
 
 COPY . ${WEB_ROOT}/disco
-
 
 RUN mkdir /var/log/supervisor
 RUN mkdir /var/log/celery

@@ -56,11 +56,13 @@ RUN rm -rf /root/.cache/pip/*
 COPY ./arches ${ARCHES_ROOT}
 COPY ./arches-for-science ${AFS_ROOT}
 
-WORKDIR ${ARCHES_ROOT}
-RUN pip install -e . --user && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt
 
 WORKDIR ${AFS_ROOT}
 RUN pip install -e .
+
+# afs app installed _before_ arches core - otherwise afs dependencies will overwrite arches editable install.
+WORKDIR ${ARCHES_ROOT}
+RUN pip install -e . --user && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt
 
 # TODO: These are required for non-dev installs, currently only depends on arches/afs
 #COPY /disco/disco/install/requirements.txt requirements.txt
