@@ -5,7 +5,8 @@ RUN apt-get install -y unzip less vim curl && curl "https://awscli.amazonaws.com
 
 FROM --platform=linux/arm64 ubuntu:22.04 as stage-arm64
 USER root
-RUN  apt-get install -y unzip less vim curl && curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install
+RUN apt-get update
+RUN apt-get install -y unzip less vim curl && curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install
 RUN apt-get update 
 
 # Declare TARGETARCH to make it available
