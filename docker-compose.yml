@@ -13,6 +13,8 @@ services:
         - ./:/web_root/disco
         - ../arches_templating/:/web_root/arches_templating
         - ../arches-for-science/:/web_root/arches-for-science
+        - $HOME/.aws/:/root/.aws/
+
         - cantaloupe-data-disco:/web_root/disco/disco/uploadedfiles
       env_file:
         - ./docker/env_file.env
