@@ -380,8 +380,8 @@ LANGUAGES = [
 SHOW_LANGUAGE_SWITCH = len(LANGUAGES) > 1
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-AWS_STORAGE_BUCKET_NAME = "disco-upload-test-bucket"
-
+AWS_STORAGE_BUCKET_NAME = "disco-dev-test-bucket"
+DOCKER=False
 try:
     from .package_settings import *
 except ImportError:
@@ -401,8 +401,11 @@ except ImportError as e:
 if DOCKER:
     try:
         from .settings_docker import *
-    except ImportError:
-        pass
+    except ImportError: 
+        try:
+            from settings_docker import *
+        except ImportError as e:
+            pass
 
 # returns an output that can be read by NODEJS
 if __name__ == "__main__":
