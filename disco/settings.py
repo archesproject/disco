@@ -129,11 +129,11 @@ INSTALLED_APPS = (
     "compressor",
     # "silk",
     "arches_templating",
-    "afs",
+    "arches_for_science",
     "disco",
 )
 
-ARCHES_APPLICATIONS = ('afs',)
+ARCHES_APPLICATIONS = ('arches_for_science',)
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -163,7 +163,33 @@ TEMPLATES = build_templates_config(
     debug=DEBUG,
     app_root=APP_ROOT,
     arches_applications=ARCHES_APPLICATIONS,
+    context_processors=[
+                    "django.contrib.auth.context_processors.auth",
+                    "django.template.context_processors.debug",
+                    "django.template.context_processors.i18n",
+                    "django.template.context_processors.media",
+                    "django.template.context_processors.static",
+                    "django.template.context_processors.tz",
+                    "django.template.context_processors.request",
+                    "django.contrib.messages.context_processors.messages",
+                    "arches.app.utils.context_processors.livereload",
+                    "arches.app.utils.context_processors.map_info",
+                    "arches.app.utils.context_processors.app_settings",
+                    "arches_for_science.utils.context_processors.project_settings"
+                ]
 )
+
+FORMATS = [
+    {"name": "Bruker M6 (point)", "id": "bm6", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker 5g", "id": "b5g", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker Tracer IV-V", "id": "bt45", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker Tracer III", "id": "bt3", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker 5i", "id": "b5i", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Bruker Artax", "id": "bart", "renderer": "31be40ae-dbe6-4f41-9c13-1964d7d17042"},
+    {"name": "Renishaw InVia - 785", "id": "r785", "renderer": "94fa1720-6773-4f99-b49b-4ea0926b3933"},
+    {"name": "Ranishsaw inVia - 633/514", "id": "r633", "renderer": "94fa1720-6773-4f99-b49b-4ea0926b3933"},
+    {"name": "ASD FieldSpec IV hi res", "id": "asd", "renderer": "88dccb59-14e3-4445-8f1b-07f0470b38bb"},
+]
 
 ALLOWED_HOSTS = []
 
@@ -354,8 +380,8 @@ LANGUAGES = [
 SHOW_LANGUAGE_SWITCH = len(LANGUAGES) > 1
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-AWS_STORAGE_BUCKET_NAME = "disco-upload-test-bucket"
-
+AWS_STORAGE_BUCKET_NAME = "disco-dev-test-bucket"
+DOCKER=False
 try:
     from .package_settings import *
 except ImportError:
@@ -371,6 +397,15 @@ except ImportError as e:
         from settings_local import *
     except ImportError as e:
         pass
+
+if DOCKER:
+    try:
+        from .settings_docker import *
+    except ImportError: 
+        try:
+            from settings_docker import *
+        except ImportError as e:
+            pass
 
 # returns an output that can be read by NODEJS
 if __name__ == "__main__":
