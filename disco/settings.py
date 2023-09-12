@@ -379,7 +379,9 @@ LANGUAGES = [
 # override this to permenantly display/hide the language switcher
 SHOW_LANGUAGE_SWITCH = len(LANGUAGES) > 1
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+STORAGES = {
+    "default": "storages.backends.s3boto3.S3Boto3Storage",
+}
 AWS_STORAGE_BUCKET_NAME = "disco-dev-test-bucket"
 DOCKER=False
 try:
