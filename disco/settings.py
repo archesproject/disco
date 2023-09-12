@@ -380,7 +380,9 @@ LANGUAGES = [
 SHOW_LANGUAGE_SWITCH = len(LANGUAGES) > 1
 
 STORAGES = {
-    "default": "storages.backends.s3boto3.S3Boto3Storage",
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
 }
 AWS_STORAGE_BUCKET_NAME = "disco-dev-test-bucket"
 DOCKER=False
