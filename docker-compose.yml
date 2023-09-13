@@ -17,7 +17,7 @@ services:
 
         - cantaloupe-data-disco:/web_root/disco/disco/uploadedfiles
       ports:
-        - ${HOST_PROJECT_PORT:-8081}:80
+        - ${HOST_PROJECT_PORT:-8001}:80
         - ${HOST_PROJECT_DEBUG_PORT:-5678}:5678
       stdin_open: true
       env_file:
