@@ -49,7 +49,7 @@ services:
         - ./:/web_root/disco
         - ../arches-for-science/:/web_root/arches-for-science
       env_file:
-        - ./docker/env_file.env
+        - ./docker/webpack/env_file.env
       ports:
         - 8080:8080
       stdin_open: true
