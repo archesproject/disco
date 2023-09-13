@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "arches": "archesproject/arches#dev/7.5.x",
-        "arches-for-science": "archesproject/arches-for-science-prj#dev/1.1.x"
+        "arches_for_science": "archesproject/arches-for-science-prj#dev/1.1.x"
     },
     "nodeModulesPaths": {
     }
