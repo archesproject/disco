@@ -9,19 +9,19 @@ services:
         dockerfile: disco/Dockerfile
       command: run_arches
       volumes:
-        - ../arches/:/web_root/arches
+        - ${ARCHES_CORE_DIR:-../arches/}:/web_root/arches
         - ./:/web_root/disco
-        - ../arches_templating/:/web_root/arches_templating
-        - ../arches-for-science/:/web_root/arches-for-science
+        - ${ARCHES_TEMPLATING_DIR:-../arches_templating/}:/web_root/arches_templating
+        - ${ARCHES_FOR_SCIENCE_DIR:-../arches-for-science/}:/web_root/arches-for-science
         - $HOME/.aws/:/root/.aws/
 
         - cantaloupe-data-disco:/web_root/disco/disco/uploadedfiles
+      ports:
+        - ${HOST_PROJECT_PORT:-8001}:80
+        - ${HOST_PROJECT_DEBUG_PORT:-5678}:5678
+      stdin_open: true
       env_file:
         - ./docker/env_file.env
-      ports:
-        - 8001:80
-        - 5678:5678
-      stdin_open: true
       tty: true
       labels:
         - traefik.http.routers.my-container.rule=Host(`disco.local`)
