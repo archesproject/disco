@@ -73,6 +73,8 @@ COPY ./arches-for-science ${AFS_ROOT}
 WORKDIR ${AFS_ROOT}
 RUN pip install -e .
 
+RUN pip uninstall arches -y
+
 # afs app installed _before_ arches core - otherwise afs dependencies will overwrite arches editable install.
 WORKDIR ${ARCHES_ROOT}
 RUN pip install -e . --user && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt
