@@ -35,9 +35,9 @@ COPY ./arches ${ARCHES_ROOT}
 COPY ../arches-for-science ${AFS_ROOT}
 RUN apt-get update && apt-get -y install curl \
   && apt-get install nodejs && npm install -g yarn && apt install wait-for-it
-  
+
 WORKDIR ${AFS_ROOT}
-RUN pip show setuptools && pip --version && pip install -e .
+RUN pip show setuptools && pip --version && pip install -e . && pip uninstall arches -y
 
 WORKDIR ${ARCHES_ROOT}
 RUN pip install -e . --user
