@@ -8,10 +8,7 @@ import inspect
 import semantic_version
 from django.utils.translation import gettext_lazy as _
 
-try:
-    from arches.settings import *
-except ImportError:
-    pass
+from arches.settings import *
 
 APP_NAME = 'disco'
 APP_VERSION = semantic_version.Version(major=0, minor=0, patch=0)
