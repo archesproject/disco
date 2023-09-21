@@ -20,7 +20,7 @@ ENV APP_ROOT=${WEB_ROOT}/disco
 # Root project folder
 ENV ARCHES_ROOT=${WEB_ROOT}/arches
 ENV AFS_ROOT=${WEB_ROOT}/arches-for-science
-ENV WHEELS=/wheels
+ENV TEMPLATING_ROOT=${WEB_ROOT}/arches_templating
 ENV PYTHONUNBUFFERED=1
 ENV NODE_MAJOR=18
 
@@ -68,12 +68,15 @@ RUN rm -rf /root/.cache/pip/*
 # FIXME: ADD from github repository instead?
 COPY ./arches ${ARCHES_ROOT}
 COPY ./arches-for-science ${AFS_ROOT}
-
+COPY ./arches_templating ${TEMPLATING_ROOT}
 
 WORKDIR ${AFS_ROOT}
 RUN pip install -e .
 
 RUN pip uninstall arches -y
+
+WORKDIR ${TEMPLATING_ROOT}
+RUN pip install -e .
 
 # afs app installed _before_ arches core - otherwise afs dependencies will overwrite arches editable install.
 WORKDIR ${ARCHES_ROOT}
