@@ -14,13 +14,17 @@ ARG TARGETARCH
 # Select final stage based on TARGETARCH ARG
 FROM stage-${TARGETARCH} as final
 
+ARG ARCHES_FOR_SCIENCE_HOST_DIR
+ARG ARCHES_CORE_HOST_DIR
+ARG ARCHES_TEMPLATING_HOST_DIR
+
 ## Setting default environment variables
 ENV WEB_ROOT=/web_root
 ENV APP_ROOT=${WEB_ROOT}/disco
 # Root project folder
 ENV ARCHES_ROOT=${WEB_ROOT}/arches
 ENV AFS_ROOT=${WEB_ROOT}/arches-for-science
-ENV TEMPLATING_ROOT=${WEB_ROOT}/arches_templating
+ENV TEMPLATING_ROOT=${WEB_ROOT}/arches-templating
 ENV PYTHONUNBUFFERED=1
 ENV NODE_MAJOR=18
 
@@ -66,9 +70,9 @@ RUN rm -rf /root/.cache/pip/*
 
 # Install the Arches application
 # FIXME: ADD from github repository instead?
-COPY ./arches ${ARCHES_ROOT}
-COPY ./arches-for-science ${AFS_ROOT}
-COPY ./arches_templating ${TEMPLATING_ROOT}
+COPY ${ARCHES_CORE_HOST_DIR} ${ARCHES_ROOT}
+COPY ${ARCHES_FOR_SCIENCE_HOST_DIR} ${AFS_ROOT}
+COPY ${ARCHES_TEMPLATING_HOST_DIR} ${TEMPLATING_ROOT}
 
 WORKDIR ${AFS_ROOT}
 RUN pip install -e .
