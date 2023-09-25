@@ -5,14 +5,20 @@ services:
       container_name: disco
       image: fargeo/disco
       build:
+        args:
+          # These are not delivered from the env_file - they're from --build-arg arguments.
+          ARCHES_TEMPLATING_HOST_DIR: ../arches-templating/
+          ARCHES_FOR_SCIENCE_HOST_DIR: ../arches-for-science/
+          ARCHES_CORE_HOST_DIR: ../arches/
         context: ..
         dockerfile: disco/Dockerfile
       command: run_arches
       volumes:
-        - ${ARCHES_CORE_DIR:-../arches/}:/web_root/arches
+        # To change these variables, modify/add the .env file prior to launch - NOT env_file.env
+        - ${ARCHES_CORE_HOST_DIR:-../arches/}:/web_root/arches
         - ./:/web_root/disco
-        - ${ARCHES_TEMPLATING_DIR:-../arches_templating/}:/web_root/arches_templating
-        - ${ARCHES_FOR_SCIENCE_DIR:-../arches-for-science/}:/web_root/arches-for-science
+        - ${ARCHES_TEMPLATING_HOST_DIR:-../arches-templating/}:/web_root/arches-templating
+        - ${ARCHES_FOR_SCIENCE_HOST_DIR:-../arches-for-science/}:/web_root/arches-for-science
         - $HOME/.aws/:/root/.aws/
 
         - cantaloupe-data-disco:/web_root/disco/disco/uploadedfiles
