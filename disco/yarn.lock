@@ -3210,9 +3210,9 @@ arches@archesproject/arches#dev/7.5.x:
     vue "^3.3.4"
     webpack-bundle-tracker "^1.4.0"
 
-arches_for_science@archesproject/arches-for-science-prj#dev/1.1.x:
+arches_for_science@archesproject/arches-for-science#dev/1.1.x:
   version "1.1.0"
-  resolved "https://codeload.github.com/archesproject/arches-for-science-prj/tar.gz/58bde21e835ca149cb28d10d5a77590af92589ad"
+  resolved "https://codeload.github.com/archesproject/arches-for-science/tar.gz/58bde21e835ca149cb28d10d5a77590af92589ad"
   dependencies:
     "@uppy/aws-s3" "^3.3.1"
     "@uppy/core" "^3.5.1"
