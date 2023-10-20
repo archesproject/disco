@@ -7,7 +7,8 @@ Procfile
 disco/archestemp/
 disco/cantaloupe/*
 disco/export_deliverables
-disco/logs
+disco/logs/*
+!disco/logs/.gitkeep  
 disco/media/build/*
 disco/media/packages
 disco/media/node_modules
