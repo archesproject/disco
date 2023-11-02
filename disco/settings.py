@@ -460,7 +460,7 @@ FORMATS = [
     {"name": "ASD FieldSpec IV hi res", "id": "asd", "renderer": "88dccb59-14e3-4445-8f1b-07f0470b38bb"},
 ]
 
-INSTRUMENT_FILE_FORMATS = ["dx", "txt"]
+XY_TEXT_FILE_FORMATS = ["dx", "txt"]
 
 try:
     from .package_settings import *
