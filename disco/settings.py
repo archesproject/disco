@@ -23,6 +23,7 @@ WEBPACK_LOADER = {
 }
 
 DATATYPE_LOCATIONS.append('disco.datatypes')
+FUNCTION_LOCATIONS.append('arches_for_science.pkg.extensions.functions')
 FUNCTION_LOCATIONS.append('disco.functions')
 ETL_MODULE_LOCATIONS.append('disco.etl_modules')
 SEARCH_COMPONENT_LOCATIONS.append('disco.search_components')
@@ -123,6 +124,7 @@ INSTALLED_APPS = (
     "corsheaders",
     "oauth2_provider",
     "django_celery_results",
+    "pgtrigger",
     "compressor",
     # "silk",
     "arches_templating",
