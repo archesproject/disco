@@ -17,10 +17,12 @@ class Migration(migrations.Migration):
         ArchesTemplate.objects.update_or_create(
             templateid="72cc4dcf-9500-418f-a42e-7d980937a9db",
             name="Example Template",
-            template="document_templates/example-template.docx",
             description="This is an example template",
-            preview="document_templates/72cc4dcf-9500-418f-a42e-7d980937a9db_preview.pdf",
-            thumbnail="document_templates/72cc4dcf-9500-418f-a42e-7d980937a9db_thumbnail.png",
+            defaults={
+                "template":"document_templates/example-template.docx",
+                "preview":"document_templates/72cc4dcf-9500-418f-a42e-7d980937a9db_preview.pdf",
+                "thumbnail":"document_templates/72cc4dcf-9500-418f-a42e-7d980937a9db_thumbnail.png",
+                }
         )
 
     def remove_document_templates(apps, schema_editor):
