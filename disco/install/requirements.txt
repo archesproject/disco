@@ -1,2 +1,2 @@
-arches~=7.5.0a0
-arches-for-science~=1.1.0a0
+arches~=7.6.0a1
+arches-for-science~=1.1.0a2
