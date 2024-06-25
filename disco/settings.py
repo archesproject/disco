@@ -18,7 +18,7 @@ MAX_ARCHES_VERSION = arches.__version__
 
 WEBPACK_LOADER = {
     "DEFAULT": {
-        "STATS_FILE": os.path.join(APP_ROOT, 'webpack/webpack-stats.json'),
+        "STATS_FILE": os.path.join(APP_ROOT, '..', 'webpack/webpack-stats.json'),
     },
 }
 
@@ -28,10 +28,9 @@ FUNCTION_LOCATIONS.append('disco.functions')
 ETL_MODULE_LOCATIONS.append('disco.etl_modules')
 SEARCH_COMPONENT_LOCATIONS.append('disco.search_components')
 
-LOCALE_PATHS.append(os.path.join(APP_ROOT, 'locale'))
-
+LOCALE_PATHS.insert(0, os.path.join(APP_ROOT, 'locale'))
 FILE_TYPE_CHECKING = False
-FILE_TYPES = ["bmp", "gif", "jpg", "jpeg", "pdf", "png", "psd", "rtf", "tif", "tiff", "xlsx", "csv", "zip"]
+FILE_TYPES = ["bmp", "gif", "jpg", "jpeg", "pdf", "png", "psd", "rtf", "tif", "tiff", "xlsx", "csv", "zip", "json"]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 't*#3-h-$cj^1^c(g6f6%pn2&1-g@!5tk%k2!n0!ns(s@2ck!*1'
@@ -125,7 +124,6 @@ INSTALLED_APPS = (
     "oauth2_provider",
     "django_celery_results",
     "pgtrigger",
-    "compressor",
     # "silk",
     "arches_templating",
     "arches_for_science",
