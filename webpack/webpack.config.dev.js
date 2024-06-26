@@ -45,16 +45,6 @@ module.exports = () => {
                         files: Path.join('src', '**/*.s?(a|c)ss'),
                     })
                 ],
-                module: {
-                    rules: [
-                        {
-                            test: /\.(js)$/,
-                            resolve: {
-                              fullySpecified: false,
-                            }
-                        }
-                    ],
-                }
             }));
         });
     });

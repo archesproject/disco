@@ -316,12 +316,15 @@ module.exports = () => {
                             loader: Path.join(PROJECT_RELATIVE_NODE_MODULES_PATH, 'vue-loader'),
                         },
                         {
-                            test: /\.mjs$/,
+                            test: /\.m?js$/,
                             include: /node_modules/,
                             type: 'javascript/auto',
+                            resolve: {
+                              fullySpecified: false,
+                            }
                         },
                         {
-                            test: /\.js$/,
+                            test: /\.(js)$/,
                             exclude: [/node_modules/, /load-component-dependencies/],
                             loader: Path.join(PROJECT_RELATIVE_NODE_MODULES_PATH, 'babel-loader'),
                             options: {
