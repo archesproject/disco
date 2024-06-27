@@ -44,7 +44,7 @@ RUN pip install -e . --user
 RUN pip install -r arches/install/requirements.txt 
 RUN pip install -r arches/install/requirements_dev.txt
 
-COPY /disco/docker/webpack/entrypoint.sh ${WEB_ROOT}/entrypoint.sh
+COPY /disco/docker/entrypoint.sh ${WEB_ROOT}/entrypoint.sh
 RUN chmod -R 700 ${WEB_ROOT}/entrypoint.sh
 WORKDIR ${WEB_ROOT}
 ENTRYPOINT [ "./entrypoint.sh" ]

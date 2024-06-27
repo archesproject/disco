@@ -42,14 +42,15 @@ RUN mkdir ${WEB_ROOT}
 RUN set -ex \
   && RUN_DEPS=" \
   build-essential \
-  python3.10-dev \
+  python3.11-dev \
   mime-support \
+  libpq-dev \
   libgdal-dev \
-  python3-venv \
+  python3.11-venv \
+  python3.11-dev \
   postgresql-client-14 \
-  python3.10 \
-  python3.10-distutils \
-  python3.10-venv \
+  python3.11 \
+  python3.11-distutils \
   dos2unix \
   git \
   " \
@@ -58,6 +59,9 @@ RUN set -ex \
   && add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" \
   && apt-get update -y \
   && apt-get install -y --no-install-recommends $RUN_DEPS
+
+RUN cd /web_root && python3.11 -m venv ENV
+SHELL ["/bin/bash", "-c"]
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py \
   && pip install setuptools \
@@ -75,16 +79,16 @@ COPY ${ARCHES_FOR_SCIENCE_HOST_DIR} ${AFS_ROOT}
 COPY ${ARCHES_TEMPLATING_HOST_DIR} ${TEMPLATING_ROOT}
 
 WORKDIR ${AFS_ROOT}
-RUN pip install -e .
+RUN source ../ENV/bin/activate && pip install -e .
 
-RUN pip uninstall arches -y
+RUN source ../ENV/bin/activate && pip uninstall arches -y
 
 WORKDIR ${TEMPLATING_ROOT}
-RUN pip install -e .
+RUN source ../ENV/bin/activate && pip install -e .
 
 # afs app installed _before_ arches core - otherwise afs dependencies will overwrite arches editable install.
 WORKDIR ${ARCHES_ROOT}
-RUN pip install -e . --user && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt
+RUN source ../ENV/bin/activate && pip install -e . && pip install -r arches/install/requirements.txt && pip install -r arches/install/requirements_dev.txt
 
 # TODO: These are required for non-dev installs, currently only depends on arches/afs
 #COPY /disco/disco/install/requirements.txt requirements.txt

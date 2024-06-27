@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# APP and YARN folder locations
 # ${WEB_ROOT} and ${ARCHES_ROOT} is defined in the Dockerfile, ${ARCHES_PROJECT} in env_file.env
 if [[ -z ${ARCHES_PROJECT} ]]; then
 	APP_FOLDER=${ARCHES_ROOT}
@@ -9,13 +8,6 @@ else
 	APP_FOLDER=${WEB_ROOT}/${ARCHES_PROJECT}
 	PACKAGE_JSON_FOLDER=${ARCHES_ROOT}
 fi
-
-YARN_MODULES_FOLDER=${PACKAGE_JSON_FOLDER}/$(awk \
-	-F '--install.modules-folder' '{print $2}' ${PACKAGE_JSON_FOLDER}/.yarnrc \
-	| awk '{print $1}' \
-	| tr -d $'\r' \
-	| tr -d '"' \
-	| sed -e "s/^\.\///g")
 
 # Environmental Variables
 export DJANGO_PORT=${DJANGO_PORT:-8000}
@@ -94,15 +86,6 @@ init_arches() {
 	fi
 }
 
-# Yarn
-install_yarn_components() {
-	if [[ ! -d ${YARN_MODULES_FOLDER} ]] || [[ ! "$(ls ${YARN_MODULES_FOLDER})" ]]; then
-		echo "Yarn modules do not exist, installing..."
-		cd ${PACKAGE_JSON_FOLDER}
-		yarn install
-	fi
-}
-
 #### Misc
 copy_settings_local() {
 	# The settings_local.py in ${ARCHES_ROOT}/arches/ gets ignored if running manage.py from a custom Arches project instead of Arches core app
@@ -125,7 +108,7 @@ run_migrations() {
 	echo "----- RUNNING DATABASE MIGRATIONS -----"
 	echo ""
 	cd ${APP_FOLDER}
-	python3 manage.py migrate
+	/bin/bash -c "source ../ENV/bin/activate && python3 manage.py migrate"
 }
 
 run_setup_db() {
@@ -133,7 +116,7 @@ run_setup_db() {
 	echo "----- RUNNING SETUP_DB -----"
 	echo ""
 	cd ${APP_FOLDER}
-	python3 manage.py setup_db --force
+	/bin/bash -c "source ../ENV/bin/activate && python3 manage.py setup_db --force"
 }
 
 run_load_package() {
@@ -141,7 +124,7 @@ run_load_package() {
 	echo "----- *** LOADING PACKAGE: ${ARCHES_PROJECT} *** -----"
 	echo ""
 	cd ${APP_FOLDER}
-	python3 manage.py packages -o load_package -a arches_for_science -db -dev -y
+	/bin/bash -c "source ../ENV/bin/activate && python3 manage.py packages -o load_package -a arches_for_science -db -dev -y"
 }
 
 # "exec" means that it will finish building???
@@ -151,8 +134,18 @@ run_django_server() {
 	echo ""
 	cd ${APP_FOLDER}
     echo "Running Django"
-	exec sh -c "pip install debugpy -t /tmp && python3 -Wdefault /tmp/debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:${DJANGO_PORT}"
+	exec /bin/bash -c "source ../ENV/bin/activate && pip install debugpy -t /tmp && python3 -Wdefault /tmp/debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:${DJANGO_PORT}"
 }
+
+run_webpack() {
+	echo ""
+	echo "----- *** RUNNING WEBPACK DEVELOPMENT SERVER *** -----"
+	echo ""
+	cd ${APP_FOLDER}
+    echo "Running Webpack"
+	exec /bin/bash -c "cd /web_root/disco && npm i && wait-for-it disco:80 -t 1200 && npm start"
+}
+
 
 run_livereload_server() {
 	echo ""
@@ -170,7 +163,6 @@ activate_virtualenv() {
 #### Main commands
 run_arches() {
 	init_arches
-	install_yarn_components
 	run_django_server
 }
 
@@ -228,9 +220,6 @@ do
 			copy_settings_local
 			wait_for_db
 			run_migrations
-		;;
-		install_yarn_components)
-			install_yarn_components
 		;;
 		help|-h)
 			display_help

@@ -18,7 +18,6 @@
         "vitest": "vitest --run --coverage"
     },
     "dependencies": {
-        "arches": "archesproject/arches#dev/7.6.x",
         "arches_for_science": "archesproject/arches-for-science#76-upgrade"
     },
     "devDependencies": {
@@ -27,11 +26,9 @@
     "nodeModulesPaths": {
     },
     "overrides": {
-        "glob": "8.1.0",
-        "minimatch": "5.1.2",
         "moment-timezone": "^0.5.45",
         "nomnom": "npm:@gerhobbelt/nomnom",
-        "rimraf": "^5.0.7", 
+        "rimraf": "^5.0.7",
         "underscore": "^1.13.6"
     }
 }
