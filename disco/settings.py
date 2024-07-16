@@ -130,7 +130,7 @@ INSTALLED_APPS = (
     "disco",
 )
 
-ARCHES_APPLICATIONS = ('arches_for_science',)
+INSTALLED_APPS += ("arches.app",)
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -149,17 +149,11 @@ MIDDLEWARE = [
     # "silk.middleware.SilkyMiddleware",
 ]
 
-STATICFILES_DIRS = build_staticfiles_dirs(
-    root_dir=ROOT_DIR,
-    app_root=APP_ROOT,
-    arches_applications=ARCHES_APPLICATIONS,
-)
+STATICFILES_DIRS = build_staticfiles_dirs(app_root=APP_ROOT)
 
 TEMPLATES = build_templates_config(
-    root_dir=ROOT_DIR,
     debug=DEBUG,
     app_root=APP_ROOT,
-    arches_applications=ARCHES_APPLICATIONS,
     context_processors=[
         "django.contrib.auth.context_processors.auth",
         "django.template.context_processors.debug",
@@ -488,13 +482,6 @@ if DOCKER:
             pass
 
 # returns an output that can be read by NODEJS
-if __name__ == "__main__":
-    transmit_webpack_django_config(
-        root_dir=ROOT_DIR,
-        app_root=APP_ROOT,
-        arches_applications=ARCHES_APPLICATIONS,
-        public_server_address=PUBLIC_SERVER_ADDRESS,
-        static_url=STATIC_URL,
-        webpack_development_server_port=WEBPACK_DEVELOPMENT_SERVER_PORT,
-    )
 
+if __name__ == "__main__":
+    transmit_webpack_django_config(**locals())

@@ -316,15 +316,12 @@ module.exports = () => {
                             loader: Path.join(PROJECT_RELATIVE_NODE_MODULES_PATH, 'vue-loader'),
                         },
                         {
-                            test: /\.m?js$/,
+                            test: /\.mjs$/,
                             include: /node_modules/,
                             type: 'javascript/auto',
-                            resolve: {
-                              fullySpecified: false,
-                            }
                         },
                         {
-                            test: /\.(js)$/,
+                            test: /\.js$/,
                             exclude: [/node_modules/, /load-component-dependencies/],
                             loader: Path.join(PROJECT_RELATIVE_NODE_MODULES_PATH, 'babel-loader'),
                             options: {
@@ -453,26 +450,27 @@ module.exports = () => {
                                         }
                                         else {
                                             if (!isTestEnvironment) {
-                                                loaderContext.emitError(`Unable to fetch ${templatePath} from the Django server.`)
+                                                loaderContext.emitError(Error(`Unable to fetch ${templatePath} from the Django server.`))
                                             }
                                             else {
                                                 console.warn(
                                                     '\x1b[31m%s\x1b[0m',  // red
                                                     `"${templatePath}" has failed to load! Test environment detected, falling back to un-rendered file.`
                                                 );
-                                                resp = {
-                                                    text: () => (
-                                                        new Promise((resolve, _reject) => {
-                                                            /*
-                                                                if run in a test environment, failures will return a empty string which will
-                                                                still allow the bundle to build.
-                                                            */
-    
-                                                            resolve(isTestEnvironment ? '' : content);
-                                                        })
-                                                    )
-                                                };
                                             }
+
+                                            resp = {
+                                                text: () => (
+                                                    new Promise((resolve, _reject) => {
+                                                        /*
+                                                            if run in a test environment, failures will return a empty string which will
+                                                            still allow the bundle to build.
+                                                        */
+
+                                                        resolve(isTestEnvironment ? '' : content);
+                                                    })
+                                                )
+                                            };
                                         }
                                     };
 
