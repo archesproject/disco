@@ -1,7 +1,7 @@
 *.pyc
 *.log
 node_modules
-*.coverage
+coverage/
 disco/logs
 disco/export_deliverables
 disco/cantaloupe/*
