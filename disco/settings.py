@@ -128,7 +128,6 @@ INSTALLED_APPS = (
     # "silk",
     "arches_templating",
     "arches_for_science",
-    "disco",
 )
 
 INSTALLED_APPS += ("arches.app",)
