@@ -106,6 +106,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
+    "disco",
     "webpack_loader",
     "django.contrib.admin",
     "django.contrib.auth",
