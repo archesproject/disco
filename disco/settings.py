@@ -23,7 +23,7 @@ WEBPACK_LOADER = {
 }
 
 DATATYPE_LOCATIONS.append('disco.datatypes')
-FUNCTION_LOCATIONS.append('arches_for_science.pkg.extensions.functions')
+FUNCTION_LOCATIONS.append('arches_for_science.functions')
 FUNCTION_LOCATIONS.append('disco.functions')
 ETL_MODULE_LOCATIONS.append('disco.etl_modules')
 SEARCH_COMPONENT_LOCATIONS.append('disco.search_components')
@@ -482,6 +482,3 @@ if DOCKER:
             pass
 
 # returns an output that can be read by NODEJS
-
-if __name__ == "__main__":
-    transmit_webpack_django_config(**locals())
