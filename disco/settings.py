@@ -106,6 +106,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
+    "disco",
     "webpack_loader",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -125,7 +126,6 @@ INSTALLED_APPS = (
     "django_celery_results",
     "pgtrigger",
     # "silk",
-    "disco",
     "arches_templating",
     "arches_for_science",
 )
@@ -264,7 +264,7 @@ TILE_CACHE_TIMEOUT = 600 #seconds
 CLUSTER_DISTANCE_MAX = 5000 #meters
 GRAPH_MODEL_CACHE_TIMEOUT = None
 
-OAUTH_CLIENT_ID = 'vrPZJ8h0KIASrNK0IkjXKK8xMBe5G8hRRdE0dQdj'
+OAUTH_CLIENT_ID = ''
 
 APP_TITLE = 'Arches | Heritage Data Management'
 COPYRIGHT_TEXT = 'All Rights Reserved.'
