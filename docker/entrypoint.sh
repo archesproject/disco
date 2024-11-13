@@ -1,21 +1,21 @@
 #!/bin/bash
 
-# APP and YARN folder locations
+# APP and npm folder locations
 # ${WEB_ROOT} and ${ARCHES_ROOT} is defined in the Dockerfile, ${ARCHES_PROJECT} in env_file.env
 if [[ -z ${ARCHES_PROJECT} ]]; then
 	APP_FOLDER=${ARCHES_ROOT}
 	PACKAGE_JSON_FOLDER=${ARCHES_ROOT}
 else
-	APP_FOLDER=${WEB_ROOT}/${ARCHES_PROJECT}
+	APP_FOLDER=${WEB_ROOT}/${ARCHES_PROJECT_ROOT_DIRECTORY}
 	PACKAGE_JSON_FOLDER=${ARCHES_ROOT}
 fi
 
-YARN_MODULES_FOLDER=${PACKAGE_JSON_FOLDER}/$(awk \
-	-F '--install.modules-folder' '{print $2}' ${PACKAGE_JSON_FOLDER}/.yarnrc \
-	| awk '{print $1}' \
-	| tr -d $'\r' \
-	| tr -d '"' \
-	| sed -e "s/^\.\///g")
+# npm_MODULES_FOLDER=${PACKAGE_JSON_FOLDER}/$(awk \
+# 	-F '--install.modules-folder' '{print $2}' ${PACKAGE_JSON_FOLDER}/.npmrc \
+# 	| awk '{print $1}' \
+# 	| tr -d $'\r' \
+# 	| tr -d '"' \
+# 	| sed -e "s/^\.\///g")
 
 # Environmental Variables
 export DJANGO_PORT=${DJANGO_PORT:-8000}
@@ -94,14 +94,14 @@ init_arches() {
 	fi
 }
 
-# Yarn
-install_yarn_components() {
-	if [[ ! -d ${YARN_MODULES_FOLDER} ]] || [[ ! "$(ls ${YARN_MODULES_FOLDER})" ]]; then
-		echo "Yarn modules do not exist, installing..."
-		cd ${PACKAGE_JSON_FOLDER}
-		yarn install
-	fi
-}
+# npm
+# install_npm_components() {
+# 	if [[ ! -d ${npm_MODULES_FOLDER} ]] || [[ ! "$(ls ${npm_MODULES_FOLDER})" ]]; then
+# 		echo "npm modules do not exist, installing..."
+# 		cd ${PACKAGE_JSON_FOLDER}
+# 		npm install
+# 	fi
+# }
 
 #### Misc
 copy_settings_local() {
@@ -125,7 +125,7 @@ run_migrations() {
 	echo "----- RUNNING DATABASE MIGRATIONS -----"
 	echo ""
 	cd ${APP_FOLDER}
-	python3 manage.py migrate
+	../ENV/bin/python manage.py migrate
 }
 
 run_setup_db() {
@@ -133,7 +133,7 @@ run_setup_db() {
 	echo "----- RUNNING SETUP_DB -----"
 	echo ""
 	cd ${APP_FOLDER}
-	python3 manage.py setup_db --force
+	../ENV/bin/python manage.py setup_db --force
 }
 
 run_load_package() {
@@ -141,7 +141,7 @@ run_load_package() {
 	echo "----- *** LOADING PACKAGE: ${ARCHES_PROJECT} *** -----"
 	echo ""
 	cd ${APP_FOLDER}
-	python3 manage.py packages -o load_package -a arches_for_science -db -dev -y
+	../ENV/bin/python manage.py packages -o load_package -s ca_shpo_online/pkg -db -dev -y
 }
 
 # "exec" means that it will finish building???
@@ -149,40 +149,28 @@ run_django_server() {
 	echo ""
 	echo "----- *** RUNNING DJANGO DEVELOPMENT SERVER *** -----"
 	echo ""
+	echo ${APP_FOLDER}
 	cd ${APP_FOLDER}
     echo "Running Django"
-	exec sh -c "pip install debugpy -t /tmp && python3 -Wdefault /tmp/debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:${DJANGO_PORT}"
-}
-
-run_livereload_server() {
-	echo ""
-	echo "----- *** RUNNING LIVERELOAD SERVER *** -----"
-	echo ""
-	cd ${APP_FOLDER}
-    echo "Running livereload"
-    exec sh -c "python3 manage.py developer livereload --livereloadhost 0.0.0.0"
-}
-
-activate_virtualenv() {
-	. ${WEB_ROOT}/ENV/bin/activate
+	exec /bin/bash -c "source ../ENV/bin/activate && pip3 install debugpy -t /tmp && python -Wdefault /tmp/debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:${DJANGO_PORT}"
 }
 
 #### Main commands
 run_arches() {
 	init_arches
-	install_yarn_components
 	run_django_server
 }
 
-#### Main commands
-run_livereload() {
-	run_livereload_server
+run_webpack() {
+	echo ""
+	echo "----- *** RUNNING WEBPACK DEVELOPMENT SERVER *** -----"
+	echo ""
+	cd ${APP_FOLDER}
+    # echo "Running Webpack"
+    #eval `ssh-agent -s` && cat /run/secrets/ssh_passphrase | SSH_ASKPASS=/bin/cat setsid -w ssh-add 2>> /dev/null
+	exec /bin/bash -c "source ../ENV/bin/activate && cd /web_root/disco && npm i && wait-for-it disco:80 -t 1200 && npm start"
 }
-
 ### Starting point ###
-
-# trying not to use virtualenv???
-# activate_virtualenv
 
 # Use -gt 1 to consume two arguments per pass in the loop
 # (e.g. each argument has a corresponding value to go with it).
@@ -210,9 +198,6 @@ do
 			wait_for_db
 			run_arches
 		;;
-		run_livereload)
-			run_livereload_server
-		;;
 		setup_arches)
 			start_celery_supervisor
 			copy_settings_local
@@ -229,8 +214,8 @@ do
 			wait_for_db
 			run_migrations
 		;;
-		install_yarn_components)
-			install_yarn_components
+		install_npm_components)
+			install_npm_components
 		;;
 		help|-h)
 			display_help
