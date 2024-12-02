@@ -10,6 +10,7 @@ disco/media/packages
 disco/media/build/
 disco/uploadedfiles/*
 disco/settings_local.py
+disco/document_templates
 archestemp
 webpack-stats.json
 .vscode/
