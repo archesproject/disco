@@ -91,6 +91,18 @@ KIBANA_CONFIG_BASEPATH = "kibana"  # must match Kibana config.yml setting (serve
 LOAD_DEFAULT_ONTOLOGY = False
 LOAD_PACKAGE_ONTOLOGIES = True
 
+ONTOLOGY_NAMESPACES = {
+    #'http://my_namespace_here/': 'some_ns',
+    #'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'RDF' <-- note the all caps
+    "http://www.cidoc-crm.org/cidoc-crm/": "",
+    "http://www.ics.forth.gr/isl/CRMarchaeo/": "",
+    "http://www.ics.forth.gr/isl/CRMdig/": "",
+    "http://www.ics.forth.gr/isl/CRMgeo/": "",
+    "http://www.ics.forth.gr/isl/CRMinf/": "",
+    "http://www.ics.forth.gr/isl/CRMsci/": "",
+    "https://takin.solutions/ontologies/CRMaaa/": "",
+}
+
 # This is the namespace to use for export of data (for RDF/XML for example)
 # It must point to the url where you host your site
 # Make sure to use a trailing slash
