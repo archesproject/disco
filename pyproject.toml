@@ -22,10 +22,10 @@ classifiers = [
     "Intended Audience :: Information Technology",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-    "arches>=7.6.6,<8",
-    "arches-for-science>=2.0.2,<3",
+    "arches>=7.6.12,<8",
+    "arches-for-science>=2.1.0b1,<3",
 ]
 version = "0.0.1"
 
