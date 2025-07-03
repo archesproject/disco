@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 
 from django.core.management.base import BaseCommand
-from afs_demo.views.create_manifests import create_manifests_from_tiles
+from disco.views.create_manifests import create_manifests_from_tiles
 
 
 class Command(BaseCommand):
